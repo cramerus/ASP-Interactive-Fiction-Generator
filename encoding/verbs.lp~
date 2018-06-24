@@ -1,0 +1,83 @@
+#program initial.
+
+% determine 'distances' between verbs in order to calculate most relevant choices for each turn
+dist(V, VV, N+1) :- dist(V, T, N), dist(T, VV, 1). 
+
+% these distance definitions are correlated with the rules given below
+dist(verb(search, X), verb(find, X), 0) :- verb(find, X), verb(search, X).
+dist(verb(fight, X), verb(defeat, X), 1) :- verb(defeat, X), verb(fight, X).
+dist(verb(find, X), verb(fight, X), 1) :- verb(find, X), verb(fight, X).
+dist(verb(find, X), verb(take, X), 1) :- verb(find, X), verb(take, X).
+dist(verb(run, none), verb(escape, none), 1).
+dist(verb(take, object(key)), verb(escape, none), 1).
+dist(verb(defeat, character(V)), verb(escape, none), 1) :- villain(V).
+
+% final distances, adding 100 weight to each one so far undefined
+final_dist(V, VV, X) :- dist(V, VV, X), V != VV.
+final_dist(verb(A, B), verb(C, D), 100) :- not dist(verb(A, B), verb(C, D), _), verb(A, B), verb(C, D), verb(A, B) != verb(C, D).
+
+#program always.
+
+% eliminates reflexive verbs - which can be defined separately using object 'self'
+:- occurs(character(X), verb(_, character(Y)), _), X = Y.
+
+verb(search, character(X)) :- character(X).
+verb(search, object(X)) :- object(X).
+choice(verb(search, X)) :- verb(search, X).
+
+verb(fight, character(X)) :- character(X).
+choice(verb(fight, X)) :- verb(fight, X).
+
+verb(take, object(X)) :- object(X).
+choice(verb(take, X)) :- verb(take, X).
+
+verb(run, none).
+choice(verb(run, X)) :- verb(run, X).
+
+verb(escape, none).
+choice(verb(escape, X)) :- verb(escape, X).
+
+verb(defeat, character(X)) :- character(X).
+
+verb(find, object(X)) :- object(X).
+verb(find, character(X)) :- character(X).
+
+#program dynamic.
+
+% same state involuntary reaction
+% search for X: immediately find X
+occurs(C, verb(find, X), Q) :- occurs(C, verb(search, X), Q).
+% X fights Y: Y is hurt, unless they run away from the fight
+state(C, adj(hurt), Q) :- occurs(CC, verb(fight, C), Q), not occurs(C, verb(run, none), Q).
+% Y defeats X if they fight while X is already hurt
+occurs(C, verb(defeat, CC), Q) :- occurs(C, verb(fight, CC), Q), not not &tel { < <? state(CC, adj(hurt), Q) }.
+% if X finds Y, Y also finds X
+occurs(character(C), verb(find, character(CC)), Q) :- occurs(character(CC), verb(find, character(C)), Q).
+
+% next state involuntary reoccurss
+% X finds Y villain: Y fights X
+occurs(CC, verb(fight, C), Q) :- 'occurs(C, verb(find, CC), Q), villain(CC).
+
+% conditions: X must happen at some point before Y
+% can't take object unless have found that object, previous act works too
+:- occurs(C, verb(take, X), _), act(Q), &tel { ~ < <? occurs(C, verb(find, X), act(Q)) }.
+% conditions to escape: run, or have a key, or defeat the villain in the same act
+:- occurs(C, verb(escape, none), Q), villain(V), character(A), &tel {
+    ~ < <? occurs(C, verb(run, none), Q) & 
+    ~ < <? occurs(C, verb(take, object(key)), Q) &
+    ~ < <? occurs(character(A), verb(defeat, V), Q)
+    }.
+% must find someone before you fight them
+:- occurs(C, verb(fight, CC), Q), &tel { ~ < <? occurs(C, verb(find, CC), Q) }.
+
+% inhibit: X happening prevents Y happening in the same act in the future
+% don't fight a character if they're already defeated
+:- occurs(C, verb(defeat, CC), Q), &tel { > >? occurs(C, verb(fight, CC), Q) }.
+% don't find something if you've already found it (in any act)
+:- occurs(C, verb(find, X), _), act(Q), &tel { > >? occurs(C, verb(find, X), act(Q)) }.
+% don't take something if you've already taken it (in any act)
+:- occurs(C, verb(take, X), _), act(Q), &tel { > >? occurs(C, verb(take, X), act(Q)) }.
+% defeated character can't do anything after being defeated
+:- occurs(_, verb(defeat, C), act(Q)), &tel { > >? occurs(C, verb(A, B), act(Q)) }, act(Q), verb(A, B).
+% can't run if hurt
+:- state(C, adj(hurt), Q), &tel { > >? occurs(C, verb(run, none), Q) }.
