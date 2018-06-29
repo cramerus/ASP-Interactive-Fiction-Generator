@@ -8,10 +8,10 @@ init(villain(character(guard))).
 init(setting(museum)).
 
 % Goals must be OCCURS statements, and are assumed to be done by the player character.
-init(goal(verb(defeat, character(guard)), act(rising))).
-init(goal(verb(find, object(painting)), act(rising))).
-%init(goal(verb(take, object(painting)), act(climax))).
-%init(goal(verb(escape, none), act(climax))).
-%init(goal(verb(take, object(key)), act(falling))).
-%init(goal(verb(escape, none), act(falling))).
+init(goal(verb(defeat, trans(character(guard))), act(rising))).
+init(goal(verb(find, trans(object(painting))), act(rising))).
+init(goal(verb(take, trans(object(painting))), act(climax))).
+init(goal(verb(escape, none), act(climax))).
+init(goal(verb(take, trans(object(key))), act(falling))).
+init(goal(verb(escape, none), act(falling))).
 

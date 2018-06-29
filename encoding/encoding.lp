@@ -1,4 +1,4 @@
-% telingo instances/01-heist.lp encoding.lp objects.lp verbs.lp characters.lp adjs.lp 0
+% telingo instances/01-heist.lp encoding/encoding.lp encoding/objects.lp encoding/verbs.lp encoding/characters.lp encoding/adjs.lp 0
 
 #program initial.
 
@@ -23,34 +23,29 @@ villain(X) :- _villain(X).
 
 q(X+1) :- 'q(X).
 
-% establish scores for each verb that is a choice
-score(V, N) :- N = #sum{X,V,VV : goal(VV, act(Q)), _final_dist(V, VV, X)}, choice(V), act(Q).
-%score(V, X) :- N = goal(VV, act(Q)), _dist(V, VV, X), choice(V), act(Q).
+% options are limited to verbs that are semantically linked to goals of that act
+option(verb(A, B)) :- choice(verb(A, B)), _goal(verb(C, D), act(Q)), act(Q), link(verb(A, B), verb(C, D)), not &final, not story(_).
 
-option(X) :- score(X, S), { score(verb(A, B), SS) : verb(A, B), SS < S } 4.
-% another rule so that if there are more than 4 with the same score, offer all of them?
-
-1 { choice(character(X), verb(Y, Z)) : choice(verb(Y, Z)) } 1 :- player(character(X)), not &final, not story(_).
+1 { choice(character(X), verb(Y, Z)) : option(verb(Y, Z)) } 1 :- player(character(X)), not &final, not story(_).
 occurs(X, Y, act(Z)) :- choice(X, Y), act(Z).
 
 % occurs limitations - not same thing more than twice in a row
 :- occurs(X, Y, Z), 'occurs(X, Y, Z), ''occurs(X, Y, Z).
 
-% just to make it look nicer and not repeat the act 10000 times
-occurs(X, Y) :- occurs(X, Y, _), not choice(X, Y).
-state(X, Y) :- state(X, Y, _).
+% for show purposes in python output
+decision(V, O) :- choice(_, verb(V, O)).
+occurs(X, verb(Y)) :- occurs(character(X), verb(Y, none), _).
+occurs(X, verb(Y, A)) :- occurs(character(X), verb(Y, trans(A)), _).
+occurs(X, verb(Y, A, B)) :- occurs(character(X), verb(Y, ditrans(A, B)), _).
+is(X, Y) :- is(X, Y, _).
 
 % at change of act, import goals
 story(X) :- act(X), 'act(XX), X != XX.
 goal(V, act(Q)) :- story(Q), _goal(V, act(Q)).
 goal(V, act(Q)) :- 'goal(V, act(Q)), not occurs(character(X), V, act(Q)), player(character(X)).
 
-% define success, and limit length of story
-% currently: 5 rising, 5 climax, 5 falling
+% define success
 success(act(X)) :- act(X), not goal(_, act(X)).
-:- success(act(rising)), q(X), X != 6.
-%:- success(act(climax)), q(X), X != 12.
-%:- success(act(falling)), q(X), X != 18.
 
 % describe change of story acts
 act(rising) :- 'act(start).
@@ -59,6 +54,7 @@ act(falling) :- 'success(act(climax)).
 act(end) :- 'success(act(falling)).
 act(X) :- 'act(X), not 'success(act(X)), X != start, X != end.
 
+%act(end) :- fail.
 :- act(end), not &final.
 
 #program final.
@@ -66,11 +62,16 @@ act(X) :- 'act(X), not 'success(act(X)), X != start, X != end.
 :- not act(end).
 story(end).
 
-%#show setting/1.
-%#show state/2.
-%#show choice/2.
-%#show occurs/2.
-%#show story/1.
+#show setting/1.
+#show is/2.
+#show has/2.
+#show decision/2.
+#show occurs/2.
+#show story/1.
 
-#show score/2.
-#show option/1.
+% for testing/debugging
+%#show goal/2.
+%#show choice/1.
+%#show option/1.
+%#show link/2.
+%#show check/1.
