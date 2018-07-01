@@ -1,4 +1,5 @@
-% telingo instances/01-heist.lp encoding/encoding.lp encoding/objects.lp encoding/verbs.lp encoding/characters.lp encoding/adjs.lp 0
+% telingo instances/01-heist.lp encoding/encoding.lp encoding/objects.lp encoding/verbs.lp encoding/characters.lp encoding/adjs.lp 0 --imin=18
+% imin = the maximum length of the story; will produce all models of length equal or less this number
 
 #program initial.
 
@@ -21,22 +22,26 @@ villain(X) :- _villain(X).
 
 #program dynamic.
 
+% keep track of state number: currently unnecessary
 q(X+1) :- 'q(X).
 
 % options are limited to verbs that are semantically linked to goals of that act
 option(verb(A, B)) :- choice(verb(A, B)), _goal(verb(C, D), act(Q)), act(Q), link(verb(A, B), verb(C, D)), not &final, not story(_).
 
-1 { choice(character(X), verb(Y, Z)) : option(verb(Y, Z)) } 1 :- player(character(X)), not &final, not story(_).
-occurs(X, Y, act(Z)) :- choice(X, Y), act(Z).
+1 { decision(character(X), verb(Y, Z)) : option(verb(Y, Z)) } 1 :- player(character(X)), not &final, not story(_).
+occurs(X, Y, act(Z)) :- decision(X, Y), act(Z).
 
 % occurs limitations - not same thing more than twice in a row
 :- occurs(X, Y, Z), 'occurs(X, Y, Z), ''occurs(X, Y, Z).
 
 % for show purposes in python output
-decision(V, O) :- choice(_, verb(V, O)).
+decision(V, O) :- decision(_, verb(V, O)).
 occurs(X, verb(Y)) :- occurs(character(X), verb(Y, none), _).
 occurs(X, verb(Y, A)) :- occurs(character(X), verb(Y, trans(A)), _).
 occurs(X, verb(Y, A, B)) :- occurs(character(X), verb(Y, ditrans(A, B)), _).
+%fails(X, verb(Y)) :- fails(character(X), verb(Y, none), _).
+%fails(X, verb(Y, A)) :- fails(character(X), verb(Y, trans(A)), _).
+%fails(X, verb(Y, A, B)) :- fails(character(X), verb(Y, ditrans(A, B)), _).
 is(X, Y) :- is(X, Y, _).
 
 % at change of act, import goals
@@ -68,6 +73,7 @@ story(end).
 #show decision/2.
 #show occurs/2.
 #show story/1.
+%#show fails/2.
 
 % for testing/debugging
 %#show goal/2.

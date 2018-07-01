@@ -1,24 +1,16 @@
+% telingo instances/01-heist.lp encoding/encoding.lp encoding/objects.lp encoding/verbs.lp encoding/characters.lp encoding/adjs.lp 0 --imin=18
+
 init(character(child)).
-init(character(mom)).
-init(character(dad)).
-init(character(
+init(character(father)).
+init(character(stepmother)).
 
+init(player(character(child))).
 
+init(setting(home)).
 
-init(character(thief)).
-init(character(guard)).
-%init(character(sidekick)).
-
-init(player(character(thief))).
-init(villain(character(guard))).
-
-init(setting(museum)).
-
-% Goals must be OCCURS statements, and are assumed to be done by the player character.
-init(goal(verb(defeat, trans(character(guard))), act(rising))).
-init(goal(verb(find, trans(object(painting))), act(rising))).
-init(goal(verb(take, trans(object(painting))), act(climax))).
-init(goal(verb(escape, none), act(climax))).
-init(goal(verb(take, trans(object(key))), act(falling))).
-init(goal(verb(escape, none), act(falling))).
-
+init(goal(verb(trick, trans(character(stepmother))), act(rising))).
+init(goal(verb(escape, none), act(rising))).
+%init(goal(verb(go, trans(setting(city))), act(climax))).
+%init(goal(verb(find, trans(character(father))), act(climax))).
+%init(goal(verb(go, trans(setting(home))), act(falling))).
+%init(goal(verb(hug, trans(character(stepmother))), act(falling))).
