@@ -11,7 +11,7 @@ init(sidekick(character(reporter))).
 
 init(setting(city)).
 
-%init(goal(has(character(hero), object(power)), act(rising))).
+%init(goal(occurs(character(hero), verb(gain, object(power)), act(rising)))).
 %init(goal(occurs(character(hero), verb(understand, object(power)), act(rising)))).
 %init(goal(occurs(character(hero), verb(save, character(X)), act(climax)))) :- sidekick(character(X)).
 %init(goal(occurs(character(hero), verb(take, object(evil_macguffin)), act(climax)))).

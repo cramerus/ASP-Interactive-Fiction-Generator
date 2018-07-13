@@ -8,17 +8,11 @@ story(start).
 %q(0).
 
 % import from instance
-setting(X) :- init(setting(X)).
 goal(X, Y) :- init(goal(X, Y)).
-character(X) :- init(character(X)).
-villain(X) :- init(villain(X)).
-player(X) :- init(player(X)).
 
 #program always.
 
-character(X) :- _character(X).
-player(X) :- _player(X).
-villain(X) :- _villain(X).
+structure(act(rising)). structure(act(climax)). structure(act(falling)).
 
 #program dynamic.
 
@@ -33,6 +27,7 @@ occurs(X, Y, act(Z)) :- player(X), decision(Y), act(Z), not fails(X, Y, act(Z)).
 
 % occurs limitations - not same thing more than twice in a row
 :- occurs(X, Y, Z), 'occurs(X, Y, Z), ''occurs(X, Y, Z).
+%:- fails(X, Y, Z), 'fails(X, Y, Z).
 :- decision(Y), 'fails(X, Y, Z), player(X).
 
 % at change of act, import goals
@@ -64,6 +59,8 @@ story(end).
 #show occurs/3.
 #show story/1.
 #show fails/3.
+#show role/2.
+%#show goal/2.
 
 % for testing/debugging
 %#show violated/1.
@@ -72,3 +69,6 @@ story(end).
 %#show option/1.
 %#show link/2.
 %#show check/1.
+%#show place/1.
+%#show remove/2.
+%#show add/2.

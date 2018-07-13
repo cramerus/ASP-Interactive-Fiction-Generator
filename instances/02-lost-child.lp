@@ -7,13 +7,16 @@ init(character(stepmother)).
 init(player(character(child))).
 
 init(setting(home)).
+% unassigned chars -> place is at setting
 
-init(is(character(father), place(city))).
+init(place(school)).
+init(is(character(father), place(office))).
 init(has(character(stepmother), object(key))).
+init(is(character(child), adj(trapped))).
 
 init(goal(has(character(child), object(key)), act(rising))).
 init(goal(verb(escape, none), act(rising))).
-%init(goal(verb(go, trans(place(city))), act(climax))).
-%init(goal(verb(find, trans(character(father))), act(climax))).
-%init(goal(verb(go, trans(place(home))), act(falling))).
-%init(goal(verb(hug, trans(character(stepmother))), act(falling))).
+init(goal(verb(go, trans(place(office))), act(climax))).
+init(goal(verb(find, trans(character(father))), act(climax))).
+init(goal(verb(hug, trans(character(stepmother))), act(falling))).
+init(goal(verb(hug, trans(character(father))), act(falling))).
