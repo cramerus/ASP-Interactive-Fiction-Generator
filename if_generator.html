@@ -11926,7 +11926,43 @@ div#notebook {
 >
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
-</pre></div></div></div></div></div>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>setting(museum)
+story(start)
+has(character(guard),object(key))
+is(character(guard),place(museum))
+is(character(thief),place(museum))
+role(antagonist,character(guard))
+role(protagonist,character(thief))
+setting(museum)
+story(rising)
+has(character(guard),object(key))
+is(character(guard),place(museum))
+is(character(thief),place(museum))
+role(antagonist,character(guard))
+role(protagonist,character(thief))
+</pre></div></div>
+
+<div class="output_area">
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -11936,7 +11972,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
 
-<span class="c1">#path = &#39;results.txt&#39;</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;results.txt&#39;</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -11955,6 +11991,7 @@ div#notebook {
         <span class="n">raw</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;State&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">idx2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">idx</span><span class="p">])):</span>
             <span class="n">raw</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="n">idx2</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="n">idx2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">raw</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="n">idx2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">raw</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="n">idx2</span><span class="p">]))</span>
     <span class="k">return</span> <span class="n">raw</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -11966,7 +12003,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
 
-<span class="c1">#test = process_output(path)</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">process_output</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -11978,7 +12015,190 @@ div#notebook {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
 
 <span class="c1">#test[0]</span>
-</pre></div></div></div></div></div>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[[&#39;:&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;story(start)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;],
+ [&#39;1:&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;story(rising)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;],
+ [&#39;2:&#39;,
+  &#39;decision(verb(search,trans(character(guard))))&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;,
+  &#39;occurs(character(guard),verb(find,trans(character(thief))),act(rising))&#39;,
+  &#39;occurs(character(thief),verb(find,trans(character(guard))),act(rising))&#39;,
+  &#39;occurs(character(thief),verb(search,trans(character(guard))),act(rising))&#39;],
+ [&#39;3:&#39;,
+  &#39;decision(verb(search,trans(object(painting))))&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),adj(hurt))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;,
+  &#39;occurs(character(guard),verb(fight,trans(character(thief))),act(rising))&#39;,
+  &#39;occurs(character(thief),verb(find,trans(object(painting))),act(rising))&#39;,
+  &#39;occurs(character(thief),verb(search,trans(object(painting))),act(rising))&#39;],
+ [&#39;4:&#39;,
+  &#39;decision(verb(lie,trans(character(guard))))&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),adj(hurt))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;,
+  &#39;occurs(character(thief),verb(lie,trans(character(guard))),act(rising))&#39;,
+  &#39;occurs(character(thief),verb(trick,trans(character(guard))),act(rising))&#39;],
+ [&#39;5:&#39;,
+  &#39;decision(verb(fight,trans(character(guard))))&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;is(character(guard),adj(hurt))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),adj(hurt))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;,
+  &#39;occurs(character(thief),verb(defeat,trans(character(guard))),act(rising))&#39;,
+  &#39;occurs(character(thief),verb(fight,trans(character(guard))),act(rising))&#39;],
+ [&#39;6:&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;story(climax)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;],
+ [&#39;7:&#39;,
+  &#39;decision(verb(search,trans(object(painting))))&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;,
+  &#39;occurs(character(thief),verb(find,trans(object(painting))),act(climax))&#39;,
+  &#39;occurs(character(thief),verb(search,trans(object(painting))),act(climax))&#39;],
+ [&#39;8:&#39;,
+  &#39;decision(verb(take,trans(object(painting))))&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;has(character(thief),object(painting))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;,
+  &#39;occurs(character(thief),verb(take,trans(object(painting))),act(climax))&#39;],
+ [&#39;9:&#39;,
+  &#39;decision(verb(run,none))&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;has(character(thief),object(painting))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;,
+  &#39;occurs(character(thief),verb(run,none),act(climax))&#39;],
+ [&#39;10:&#39;,
+  &#39;decision(verb(escape,none))&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;has(character(thief),object(painting))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;,
+  &#39;occurs(character(thief),verb(escape,none),act(climax))&#39;],
+ [&#39;11:&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;story(falling)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;has(character(thief),object(painting))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;],
+ [&#39;12:&#39;,
+  &#39;decision(verb(search,trans(character(guard))))&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;has(character(thief),object(painting))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;,
+  &#39;occurs(character(guard),verb(find,trans(character(thief))),act(falling))&#39;,
+  &#39;occurs(character(thief),verb(find,trans(character(guard))),act(falling))&#39;,
+  &#39;occurs(character(thief),verb(search,trans(character(guard))),act(falling))&#39;],
+ [&#39;13:&#39;,
+  &#39;decision(verb(lie,trans(character(guard))))&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;has(character(guard),object(key))&#39;,
+  &#39;has(character(thief),object(painting))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;,
+  &#39;occurs(character(thief),verb(lie,trans(character(guard))),act(falling))&#39;,
+  &#39;occurs(character(thief),verb(trick,trans(character(guard))),act(falling))&#39;],
+ [&#39;14:&#39;,
+  &#39;decision(verb(steal,ditrans(object(key),character(guard))))&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;has(character(thief),object(key))&#39;,
+  &#39;has(character(thief),object(painting))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;,
+  &#39;occurs(character(thief),verb(steal,ditrans(object(key),character(guard))),act(falling))&#39;],
+ [&#39;15:&#39;,
+  &#39;decision(verb(escape,none))&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;has(character(thief),object(key))&#39;,
+  &#39;has(character(thief),object(painting))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;,
+  &#39;occurs(character(thief),verb(escape,none),act(falling))&#39;],
+ [&#39;16:&#39;,
+  &#39;setting(museum)&#39;,
+  &#39;story(end)&#39;,
+  &#39;has(character(thief),object(key))&#39;,
+  &#39;has(character(thief),object(painting))&#39;,
+  &#39;is(character(guard),place(museum))&#39;,
+  &#39;is(character(thief),place(museum))&#39;,
+  &#39;role(antagonist,character(guard))&#39;,
+  &#39;role(protagonist,character(thief))&#39;]]</pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -11990,6 +12210,8 @@ div#notebook {
 
 <span class="c1">#import nbinteract as nbi</span>
 <span class="c1">#nbi.publish(&#39;cramerus/nbinteract-image/master&#39;, &#39;if_generator.ipynb&#39;)</span>
+
+<span class="c1"># CLI: nbinteract -s cramerus/ASP-Interactive-Fiction-Generator/master if_generator.ipynb</span>
 </pre></div></div></div></div></div>
 
 
@@ -11998,7 +12220,7 @@ div#notebook {
 <script src="https://unpkg.com/nbinteract-core"></script>
 <script>
   var interact = new NbInteract({
-    spec: 'cramerus/nbinteract-image/master',
+    spec: 'cramerus/ASP-Interactive-Fiction-Generator/master',
     baseUrl: 'https://mybinder.org',
     provider: 'gh',
   })
