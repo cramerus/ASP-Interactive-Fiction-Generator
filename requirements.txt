@@ -8,5 +8,3 @@ datascience
 ipywidgets>=7.0.0
 bqplot
 nbinteract>=0.1.8
-re
-collections
