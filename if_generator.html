@@ -11784,10 +11784,12 @@ div#notebook {
 <div class="input">
 
 <div class="inner_cell"
-  
+  style="display:none;"
 >
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">Button</span><span class="p">,</span> <span class="n">HBox</span><span class="p">,</span> <span class="n">VBox</span><span class="p">,</span> <span class="n">Layout</span><span class="p">,</span> <span class="n">widgets</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span>
@@ -11796,10 +11798,12 @@ div#notebook {
 <div class="input">
 
 <div class="inner_cell"
-  
+  style="display:none;"
 >
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">IF</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+
+<span class="k">class</span> <span class="nc">IF</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;text&quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">future</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -11912,9 +11916,7 @@ div#notebook {
   
 >
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">heist</span> <span class="o">=</span> <span class="n">IF</span><span class="p">(</span><span class="s1">&#39;heist-results.txt&#39;</span><span class="p">)</span>
-<span class="c1"># when imin=18: 5108</span>
-<span class="c1"># ~322,000 models, 473 seconds, 15 choice steps</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">IF</span><span class="p">(</span><span class="s1">&#39;results.txt&#39;</span><span class="p">)</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -11923,105 +11925,70 @@ div#notebook {
   
 >
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">heist</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>setting(museum)
-story(start)
-is(character(thief),place(museum))
-story(rising)
-is(character(thief),place(museum))
-</pre></div></div>
-
-<div class="output_area">
-
-
-
-
-
-<div class="output_subarea output_widget_view ">
-  <button class="js-nbinteract-widget">
-    Show Widget
-  </button></div></div></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell"
-  
->
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#test = IF(&#39;results.txt&#39;)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell"
-  
+  style="display:none;"
 >
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#test.play()</span>
-</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Attempt-2:-Iteration-over-Recursion">Attempt 2: Iteration over Recursion<a class="anchor-link" href="#Attempt-2:-Iteration-over-Recursion">&#182;</a></h1></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
 
-<div class="inner_cell"
-  
->
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#path = &#39;results.txt&#39;</span>
-</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>def process_output(path):
-    f = open(path)
-    raw = f.read().replace('\n','')
-    raw = raw.split('State 0')[1:]
-    for idx in range(len(raw)):
-        raw[idx] = raw[idx].split('State')
-        for idx2 in range(len(raw[idx])):
-            raw[idx][idx2] = raw[idx][idx2].split(' ')
-    return raw</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell"
-  
->
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#test = process_output(path)</span>
+<span class="c1">#path = &#39;results.txt&#39;</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell"
-  
+  style="display:none;"
 >
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#test[0]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+
+<span class="k">def</span> <span class="nf">process_output</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;State 0&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">raw</span><span class="p">)):</span>
+        <span class="n">raw</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;State&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">idx</span><span class="p">])):</span>
+            <span class="n">raw</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="n">idx2</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="n">idx2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">raw</span>
 </pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Publishing">Publishing<a class="anchor-link" href="#Publishing">&#182;</a></h1></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell"
-  
+  style="display:none;"
 >
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#import nbinteract as nbi</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+
+<span class="c1">#test = process_output(path)</span>
+</pre></div></div></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell"
+  style="display:none;"
+>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+
+<span class="c1">#test[0]</span>
+</pre></div></div></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell"
+  style="display:none;"
+>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+
+<span class="c1">#import nbinteract as nbi</span>
 <span class="c1">#nbi.publish(&#39;cramerus/nbinteract-image/master&#39;, &#39;if_generator.ipynb&#39;)</span>
 </pre></div></div></div></div></div>
 
