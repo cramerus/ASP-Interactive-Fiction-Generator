@@ -20,12 +20,16 @@ adj(sick).
 adj(hurt).
 adj(dead).
 adj(trapped).
+adj(cursed).
 
 place(X) :- _place(X).
 
 % unidirectional semantic linking
 link(verb(fight, trans(C)), is(C, adj(hurt))) :- verb(fight, trans(C)). 
 link(is(C, adj(hurt)), verb(help, trans(C))) :- verb(help, trans(C)).
+
+link(verb(fight, trans(C)), is(C, adj(cursed))) :- verb(fight, trans(C)). 
+%link(verb(V, trans(C)), is(CC, adj(cursed))) :- verb(V, trans(C)), is(C, adj(cursed)), is(CC, adj(cursed)). 
 
 link(verb(go, trans(place(X))), is(character(C), place(X))) :- character(C), verb(go, trans(place(X))).
 link(is(character(C), place(X)), verb(go, trans(Y))) :- place(X), verb(go, trans(Y)), character(C).
@@ -42,6 +46,8 @@ is(C, adj(X)) :- 'is(C, adj(X)), not cure(C, adj(X)).
 
 % what triggers a state
 is(C, adj(hurt)) :- occurs(_, verb(fight, trans(C)), _).
+is(CC, adj(cursed)) :- occurs(CC, verb(fight, trans(C)), _), is(C, adj(cursed)).
+is(CC, adj(cursed)) :- occurs(CC, verb(_, trans(C)), _), is(C, adj(cursed)).
 is(C, adj(sick)) :- occurs(_, verb(infect, trans(C)), _).
 is(C, adj(happy)) :- occurs(_, verb(V, trans(C)), _), helpful(verb(V, trans(C))).
 is(C, adj(dead)) :- occurs(_, verb(kill, trans(C)), _), not is(C, adj(happy)).
