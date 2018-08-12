@@ -39,6 +39,8 @@ verb(go, trans(place(X))) :- place(X).
     choice(verb(go, trans(X))) :- verb(go, trans(X)).
 verb(hug, trans(character(X))) :- character(X).
     choice(verb(hug, X)) :- verb(hug, X).
+verb(destroy, trans(object(X))) :- object(X). 
+    choice(verb(destroy, X)) :- verb(destroy, X).
 %verb(ask, ditrans(verb(X, Y), character(C))) :- choice(verb(X, Y)), character(C), verb(X, Y) != verb(ask, Y), role(support, character(C)).
 %    choice(verb(ask, X)) :- verb(ask, X).
 
@@ -69,6 +71,7 @@ link(verb(find, X), verb(talk, X)) :- verb(find, X), verb(talk, X).
 link(verb(find, X), verb(lie, X)) :- verb(find, X), verb(lie, X). 
 link(verb(find, X), verb(help, X)) :- verb(find, X), verb(help, X).
 link(verb(find, X), verb(hug, X)) :- verb(find, X), verb(hug, X).
+link(verb(take, X), verb(destroy, X)) :- verb(take, X), verb(destroy, X).
 link(verb(find, C), verb(request, ditrans(X, C))) :- verb(find, C), verb(request, ditrans(X, C)).
 link(verb(find, C), verb(steal, ditrans(X, C))) :- verb(find, C), verb(steal, ditrans(X, C)).
 
@@ -96,6 +99,7 @@ occurs(C, verb(defeat, trans(CC)), Q) :- occurs(C, verb(fight, trans(CC)), Q), '
 
 % conditions: X must happen at some point before Y
 :- occurs(C, verb(take, X), Q), not not &tel { ~ < <? occurs(C, verb(find, X), Q) }.
+:- occurs(C, verb(destroy, X), Q), not not &tel { ~ < <? occurs(C, verb(take, X), Q) }.
 :- occurs(C, verb(fight, trans(CC)), Q), &tel { ~ < <? occurs(C, verb(find, trans(CC)), Q) }.
 :- occurs(C, verb(talk, trans(CC)), Q), not not &tel { ~ < <? occurs(C, verb(find, trans(CC)), Q) }.
 :- occurs(C, verb(lie, trans(CC)), Q), not not &tel { ~ < <? occurs(C, verb(find, trans(CC)), Q) }.
