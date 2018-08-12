@@ -32,6 +32,7 @@ has(C, X) :- occurs(C, verb(steal, ditrans(X, CC)), _).
 % what triggers removal of object from possession
 remove(CC, X) :- occurs(CC, verb(give, ditrans(X, C)), _).
 remove(CC, X) :- occurs(C, verb(steal, ditrans(X, CC)), _).
+remove(CC, X) :- occurs(CC, verb(destroy, trans(X)), _).
 
 % VERBS that has affects
 occurs(C, verb(find, trans(X)), Q) :- occurs(C, verb(search, trans(X)), Q), not fails(C, verb(find, trans(X)), Q).
