@@ -4,7 +4,7 @@ character(X) :- init(character(X)).
 player(X) :- init(player(X)).
 
 role(X, Y) :- init(role(X, Y)).
-specialist(X, Y) :- init(specialist(X, Y)).
+specialist(X, Y) :- init(specialist(X, Y)). % X is speciality, Y is character
 
 #program always.
 
@@ -19,6 +19,7 @@ role(support).
 
 specialist(scientist).
 specialist(thief).
+specialist(magic).
 
 helpful(verb(help, X)) :- verb(help, X).
 helpful(verb(equip, X)) :- verb(equip, X).
@@ -27,6 +28,7 @@ helpful(verb(inspire, X)) :- verb(inspire, X).
 harmful(verb(fight, X)) :- verb(fight, X).
 harmful(verb(rob, X)) :- verb(rob, X).
 harmful(verb(infect, X)) :- verb(infect, X).
+harmful(verb(curse, X)) :- verb(infect, X).
 
 neutral(verb(talk, X)) :- verb(talk, X).
 neutral(verb(pickpocket, X)) :- verb(pickpocket, X).
@@ -43,6 +45,8 @@ speciality(verb(pickpocket, X), specialist(thief)) :- verb(pickpocket, X).
 speciality(verb(inspire, X), specialist(scientist)) :- verb(inspire, X).
 speciality(verb(infect, X), specialist(scientist)) :- verb(infect, X).
 speciality(verb(research, none), specialist(scientist)).
+
+%speciality(verb(curse, X), specialist(magic)) :- verb(curse, X).
 
 #program dynamic.
 
