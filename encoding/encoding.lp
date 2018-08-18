@@ -5,9 +5,7 @@
 
 act(start).
 story(start).
-%q(0).
 
-% import from instance
 goal(X, Y) :- init(goal(X, Y)).
 
 #program always.
@@ -16,11 +14,8 @@ structure(act(rising)). structure(act(climax)). structure(act(falling)).
 
 #program dynamic.
 
-% keep track of state number: currently unnecessary
-%q(X+1) :- 'q(X).
-
 % options are limited to verbs that are semantically linked to goals of that act
-option(verb(A, B)) :- choice(verb(A, B)), _goal(verb(C, D), act(Q)), act(Q), link(verb(A, B), verb(C, D)), not &final, not story(_).
+option(verb(A, B)) :- choice(verb(A, B)), _goal(X, act(Q)), act(Q), link(verb(A, B), X), not &final, not story(_).
 
 1 { decision(verb(Y, Z)) : option(verb(Y, Z)) } 1 :- not &final, not story(_).
 occurs(X, Y, act(Z)) :- player(X), decision(Y), act(Z), not fails(X, Y, act(Z)).
@@ -60,7 +55,6 @@ story(end).
 #show story/1.
 #show fails/3.
 #show role/2.
-%#show goal/2.
 
 % for testing/debugging
 %#show violated/1.
@@ -72,3 +66,4 @@ story(end).
 %#show place/1.
 %#show remove/2.
 %#show add/2.
+%#show object/1.

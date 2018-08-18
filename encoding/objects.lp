@@ -55,3 +55,4 @@ occurs(CC, verb(give, ditrans(X, C)), Q) :- 'has(CC, X), occurs(C, verb(request,
 % FAIL conditions due to effects
 fails(CC, verb(give, ditrans(X, C)), Q) :- not occurs(CC, verb(give, ditrans(X, C)), Q), occurs(C, verb(request, ditrans(X, CC)), Q).
 fails(C, verb(find, trans(X)), Q) :- occurs(C, verb(search, trans(X)), Q), has(_, X).
+fails(C, verb(find, trans(X)), Q) :- occurs(C, verb(search, trans(X)), Q), is(C, place(Y)), is(X, place(Z)), Y != Z.

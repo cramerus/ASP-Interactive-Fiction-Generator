@@ -1,5 +1,3 @@
-#program initial.
-
 #program always.
 
 % define transitivity and ditransitivity
@@ -12,7 +10,7 @@ ditrans(X, Y) :- trans(X), trans(Y).
 :- occurs(character(X), verb(_, ditrans(character(Y), _)), _), X = Y.
 :- occurs(character(X), verb(_, ditrans(_, character(Y))), _), X = Y.
 
-verb(search, trans(X)) :- trans(X). 
+verb(search, trans(X)) :- trans(X).
     choice(verb(search, X)) :- verb(search, X).
 verb(fight, trans(character(X))) :- character(X). 
     choice(verb(fight, X)) :- verb(fight, X).
@@ -41,8 +39,6 @@ verb(hug, trans(character(X))) :- character(X).
     choice(verb(hug, X)) :- verb(hug, X).
 verb(destroy, trans(object(X))) :- object(X). 
     choice(verb(destroy, X)) :- verb(destroy, X).
-%verb(ask, ditrans(verb(X, Y), character(C))) :- choice(verb(X, Y)), character(C), verb(X, Y) != verb(ask, Y), role(support, character(C)).
-%    choice(verb(ask, X)) :- verb(ask, X).
 
 verb(talk, trans(character(X))) :- character(X).
     choice(verb(talk, X)) :- verb(talk, X).
@@ -87,15 +83,14 @@ link(verb(defeat, trans(CC)), verb(steal, ditrans(X, CC))) :- verb(steal, ditran
 link(verb(request, ditrans(X, C)), verb(give, ditrans(X, CC))) :- verb(request, ditrans(X, C)), verb(give, ditrans(X, CC)).
 link(verb(help, trans(C)), verb(give, ditrans(X, C))) :- verb(help, trans(C)), verb(give, ditrans(X, C)).
 link(verb(go, X), verb(search, Y)) :- verb(go, X), verb(search, Y).
-%link(verb(ask, ditrans(verb(X, Y), character(C))), verb(X, Y)) :- verb(ask, ditrans(verb(X, Y), character(C))).
 
+:- occurs(C, verb(give, ditrans(X, CC)), Q), goal(has(C, X), Q), player(C).
 #program dynamic.
 
 % same state involuntary reaction
 occurs(character(C), verb(find, trans(character(CC))), Q) :- occurs(character(CC), verb(find, trans(character(C))), Q), character(C), character(CC).
 occurs(C, verb(trick, trans(CC)), Q) :- occurs(C, verb(lie, trans(CC)), Q).
 occurs(C, verb(defeat, trans(CC)), Q) :- occurs(C, verb(fight, trans(CC)), Q), 'occurs(C, verb(trick, trans(CC)), Q).
-%occurs(C, verb(X, Y), Q) :- occurs(CC, verb(ask, ditrans(verb(X, Y), C)), Q).
 
 % conditions: X must happen at some point before Y
 :- occurs(C, verb(take, X), Q), not not &tel { ~ < <? occurs(C, verb(find, X), Q) }.
@@ -115,7 +110,6 @@ occurs(C, verb(defeat, trans(CC)), Q) :- occurs(C, verb(fight, trans(CC)), Q), '
 :- occurs(C, verb(defeat, trans(CC)), Q), not not &tel { > >? occurs(C, verb(fight, trans(CC)), Q) }.
 :- occurs(C, verb(find, X), _), not not &tel { > >? occurs(C, verb(search, X), act(Q)) }, act(Q).
 :- occurs(C, verb(defeat, trans(CC)), act(Q)), occurs(CC, verb(defeat, trans(C)), act(Q)).
-
 :- occurs(_, verb(escape, none), act(Q)), not story'(_).
 :- occurs(_, verb(defeat, trans(C)), act(Q)), not not &tel { > >? occurs(C, verb(A, B), act(Q)) }, act(Q), verb(A, B).
 
