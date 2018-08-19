@@ -14,6 +14,7 @@ is(character(C), place(X)) :- character(C), setting(X), not init(is(character(C)
 
 #program always.
 
+% temporary
 adj(hurt).
 adj(tired).
 adj(angry).
@@ -23,15 +24,21 @@ adj(hurt).
 adj(dead).
 adj(trapped).
 adj(cursed).
+adj(visible).
+adj(safe).
+
+% characteristics (mostly for npc)
+adj(violent).
+adj(follower).
 
 place(X) :- _place(X).
 
 % unidirectional semantic linking
-link(verb(fight, trans(C)), is(C, adj(hurt))) :- verb(fight, trans(C)). 
+link(verb(fight, trans(C)), is(C, adj(hurt))) :- verb(fight, trans(C)).
 link(is(C, adj(hurt)), verb(help, trans(C))) :- verb(help, trans(C)).
 
-link(verb(fight, trans(C)), is(C, adj(cursed))) :- verb(fight, trans(C)). 
-%link(verb(V, trans(C)), is(CC, adj(cursed))) :- verb(V, trans(C)), is(C, adj(cursed)), is(CC, adj(cursed)). 
+link(verb(fight, trans(C)), is(C, adj(cursed))) :- verb(fight, trans(C)).
+%link(verb(V, trans(C)), is(CC, adj(cursed))) :- verb(V, trans(C)), is(C, adj(cursed)), is(CC, adj(cursed)).
 
 link(verb(go, trans(place(X))), is(character(C), place(X))) :- character(C), verb(go, trans(place(X))).
 link(is(character(C), place(X)), verb(go, trans(Y))) :- place(X), verb(go, trans(Y)), character(C).
@@ -57,18 +64,24 @@ is(CC, adj(cursed)) :- occurs(CC, verb(_, trans(C)), _), is(C, adj(cursed)).
 is(C, adj(sick)) :- occurs(_, verb(infect, trans(C)), _).
 is(C, adj(happy)) :- occurs(_, verb(V, trans(C)), _), helpful(verb(V, trans(C))).
 is(C, adj(dead)) :- occurs(_, verb(kill, trans(C)), _), not is(C, adj(happy)).
+is(C, adj(safe)) :- occurs(_, verb(save, trans(C)), _).
 
-% cure: this action 'cures' a character of a state
+% cure: this action 'cures' a character/object of a state
 cure(C, adj(hurt)) :- occurs(_, verb(help, trans(C)), Q).
 cure(character(C), adj(hurt)) :- story(Q), character(C).
 cure(C, adj(trapped)) :- has(C, object(key)), occurs(C, verb(escape, none), _).
+cure(X, adj(visible)) :- 'occurs(C, verb(find, trans(X)), _), player(C).
+cure(C, adj(trapped)) :- occurs(_, verb(save, trans(C)), Q).
+cure(P, adj(hidden)) :- occurs(C, verb(understand, none), _), player(C), 'is(P, adj(hidden)).
 
 % VERBS that adj affect
 occurs(C, verb(defeat, trans(CC)), Q) :- occurs(C, verb(fight, trans(CC)), Q), 'is(CC, adj(hurt)), not player(CC).
+occurs(C, verb(find, trans(X)), act(Q)) :- act(Q), is(X, adj(visible)), is(X, place(Y)), is(C, place(Y)), player(C).
 
 % CONSTRAINS on motion
 :- occurs(C, verb(go, trans(X)), Q), 'is(C, X).
 :- occurs(C, verb(go, _), _), is(C, adj(trapped)).
+:- occurs(C, verb(go, trans(P)), _), player(C), is(P, adj(hidden)).
 :- occurs(C, verb(X, trans(character(CC))), _), is(C, place(P)), is(character(CC), place(PP)), P != PP, X != search.
 :- occurs(C, verb(X, ditrans(CC, _)), _), is(C, place(P)), is(CC, place(PP)), P != PP, X != search.
 :- occurs(C, verb(X, ditrans(_, CC)), _), is(C, place(P)), is(CC, place(PP)), P != PP, X != search.
@@ -76,4 +89,3 @@ occurs(C, verb(defeat, trans(CC)), Q) :- occurs(C, verb(fight, trans(CC)), Q), '
 % FAIL conditions due to effects
 fails(C, verb(run, none), Q) :- 'is(C, adj(hurt)), act(Q), decision(verb(run, none)).
 fails(C, verb(find, trans(X)), Q) :- occurs(C, verb(search, trans(X)), Q), is(X, place(Y)), is(C, place(Z)), Y != Z.
-

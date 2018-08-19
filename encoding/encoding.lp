@@ -60,8 +60,8 @@ story(end).
 %#show violated/1.
 %#show goal/2.
 %#show choice/1.
-%#show option/1.
 %#show link/2.
+%#show option/1.
 %#show check/1.
 %#show place/1.
 %#show remove/2.

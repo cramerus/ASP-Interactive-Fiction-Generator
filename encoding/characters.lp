@@ -73,14 +73,18 @@ role(X, Y) :- 'role(X, Y).
 %0{choice(character(X),verb(V,character(Y)))}1 :- role(antagonist,X), harmful(V), speciality(V,none), role(protagonist,Y), not 'mood(X,_).
 %choice(character(X),verb(kill,character(Y))) :- role(antagonist,X), role(support,Y), 'mood(X,hurt), not mood(Y,dead).
 
+% antagonist fights everyone they find
 occurs(CC, verb(fight, trans(C)), Q) :- 'occurs(CC, verb(find, trans(C)), Q),  role(antagonist, CC),
-    not occurs(C, verb(trick, trans(CC)), Q), 
+    not occurs(C, verb(trick, trans(CC)), Q),
     not occurs(C, verb(run, none), Q),
-    not occurs(C, verb(escape, none), Q).
+    not occurs(C, verb(escape, none), Q),
+    not is(C, adj(safe)).
+
+% 'follower' character follows player
+occurs(C, verb(go, trans(X)), Q) :- is(C, adj(follower)), occurs(CC, verb(go, trans(X)), Q), player(CC), 'is(C, Y), 'is(CC, Y), Y != X.
+is(C, adj(visible)) :- occurs(C, verb(go, trans(X)), Q), is(C, adj(follower)).
 
 % constraints
-%:- occurs(_, verb(hug, trans(C)), act(Q)), role(antagonist, C).
-
 :- occurs(C, verb(hug, trans(X)), _), role(antagonist, X), player(C).
 :- occurs(C, verb(help, trans(X)), _), role(antagonist, X), player(C).
 :- occurs(C, verb(steal, ditrans(_, X)), _), role(support, X), player(C).

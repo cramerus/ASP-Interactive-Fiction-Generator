@@ -18,6 +18,7 @@ link(verb(steal, ditrans(X, CC)), has(character(C), X)) :- character(C), verb(st
 link(has(C, X), verb(steal, ditrans(X, C))) :- verb(steal, ditrans(X, C)).
 link(has(C, X), verb(use, trans(X))) :- trans(X), player(C).
 link(has(C, object(key)), verb(escape, none)) :- player(C).
+link(has(C, object(X)), verb(study, trans(object(X)))) :- player(C), object(X).
 
 #program dynamic.
 
@@ -37,6 +38,7 @@ remove(CC, X) :- occurs(CC, verb(destroy, trans(X)), _).
 % VERBS that has affects
 occurs(C, verb(find, trans(X)), Q) :- occurs(C, verb(search, trans(X)), Q), not fails(C, verb(find, trans(X)), Q).
 occurs(CC, verb(give, ditrans(X, C)), Q) :- 'has(CC, X), occurs(C, verb(request, ditrans(X, CC)), Q), not not &tel { < <? occurs(C, verb(help, trans(CC)), Q) }.
+occurs(C, verb(understand, none), Q) :- occurs(C, verb(study, trans(object(clues))), Q).
 :- occurs(C, verb(take, trans(X)), _), 'has(C, X).
 :- occurs(C, verb(use, trans(X), _), Q), not 'has(C, X).
 :- occurs(C, verb(give, ditrans(X, _)), Q), not 'has(C, X).
@@ -45,10 +47,11 @@ occurs(CC, verb(give, ditrans(X, C)), Q) :- 'has(CC, X), occurs(C, verb(request,
 :- occurs(C, verb(steal, ditrans(X, CC)), Q), not 'has(CC, X).
 :- occurs(C, verb(request, ditrans(X, CC)), Q), not 'has(CC, X).
 :- occurs(C, verb(request, ditrans(X, CC)), Q), 'has(C, X).
+:- occurs(C, verb(study, trans(X)), Q), not has(C, X).
 
 % conditions to escape: run, or have a key, or defeat/trick the villain in the same act
 :- occurs(C, verb(escape, none), Q), role(antagonist, V), not has(C, object(key)), not not &tel {
-    ~ < <? occurs(C, verb(run, none), Q) & 
+    ~ < <? occurs(C, verb(run, none), Q) &
     ~ < <? occurs(C, verb(defeat, trans(V)), Q) &
     ~ < <? occurs(C, verb(trick, trans(V)), Q) }.
 
