@@ -1,4 +1,4 @@
-% telingo instances/02-lost-child.lp encoding/encoding.lp encoding/objects.lp encoding/verbs.lp encoding/characters.lp encoding/adjs.lp 0 --imin=19
+% telingo instances/02-lost-child.lp encoding/encoding.lp encoding/objects.lp encoding/verbs.lp encoding/characters.lp encoding/adjs.lp 0 --imin=20
 
 init(character(child)).
 init(character(father)).

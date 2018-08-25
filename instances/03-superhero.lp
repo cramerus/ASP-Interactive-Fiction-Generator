@@ -12,6 +12,9 @@ init(has(character(scientist), object(power))).
 
 init(is(object(bomb), place(lair))).
 init(is(character(scientist), place(lab))).
+init(is(place(lair), adj(hidden))).
+init(is(object(bomb), adj(hidden))).
+init(is(character(scientist), adj(smart))).
 
 init(setting(city)).
 
