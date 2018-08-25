@@ -80,8 +80,8 @@ occurs(CC, verb(fight, trans(C)), Q) :- 'occurs(CC, verb(find, trans(C)), Q),  r
     not occurs(C, verb(escape, none), Q),
     not is(C, adj(safe)).
 
-% 'follower' character follows player
-occurs(C, verb(go, trans(X)), Q) :- is(C, adj(follower)), occurs(CC, verb(go, trans(X)), Q), player(CC), 'is(C, Y), 'is(CC, Y), Y != X.
+% 'follower' character follows player if support
+occurs(C, verb(go, trans(X)), Q) :- is(C, adj(follower)), occurs(CC, verb(go, trans(X)), Q), player(CC), 'is(C, Y), 'is(CC, Y), Y != X, role(support, C).
 is(C, adj(visible)) :- occurs(C, verb(go, trans(X)), Q), is(C, adj(follower)).
 
 % constraints

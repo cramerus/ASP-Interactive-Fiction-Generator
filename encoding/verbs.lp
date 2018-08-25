@@ -44,6 +44,10 @@ verb(talk, trans(character(X))) :- character(X).
 verb(understand, none).
 verb(study, trans(object(X))) :- object(X).
   choice(verb(study, X)) :- verb(study, X).
+verb(buy, trans(object(X))) :- object(X), is(object(X), adj(sale)).
+  choice(verb(buy, X)) :- verb(buy, X).
+verb(kiss, trans(character(X))) :- character(X).
+    choice(verb(kiss, X)) :- verb(kiss, X).
 
 verb(use, trans(object(X))) :- object(X).
     choice(verb(use, X)) :- verb(use, X).
@@ -57,6 +61,8 @@ verb(infect, trans(character(X))) :- character(X).
 verb(pickpocket, ditrans(object(X), character(Y))) :- ditrans(object(X), character(Y)).
 verb(research, none).
 verb(kill, trans(character(X))) :- character(X).
+
+#program dynamic.
 
 % semantic linking: matches rules in dynamic
 link(verb(X, Y), verb(X, Y)) :- verb(X, Y).
@@ -75,21 +81,20 @@ link(verb(find, C), verb(steal, ditrans(X, C))) :- verb(find, C), verb(steal, di
 
 link(verb(take, X), verb(use, X)) :- verb(take, X), verb(use, X).
 link(verb(run, none), verb(escape, none)).
-link(verb(defeat, trans(X)), verb(escape, none)) :- verb(defeat, trans(X)).
-link(verb(trick, trans(X)), verb(escape, none)) :- verb(trick, trans(X)).
+link(verb(defeat, trans(X)), verb(escape, none)) :- verb(defeat, trans(X)), role(antagonist, X).
+link(verb(trick, trans(X)), verb(escape, none)) :- verb(trick, trans(X)), role(antagonist, X).
 link(verb(lie, trans(X)), verb(trick, trans(X))) :- verb(lie, trans(X)), verb(trick, trans(X)).
 link(verb(fight, X), verb(defeat, X)) :- verb(fight, X), verb(defeat, X).
 link(verb(trick, X), verb(defeat, X)) :- verb(trick, X), verb(defeat, X).
 link(verb(trick, trans(CC)), verb(steal, ditrans(X, CC))) :- verb(steal, ditrans(X, CC)), verb(trick, trans(CC)).
 link(verb(defeat, trans(CC)), verb(steal, ditrans(X, CC))) :- verb(steal, ditrans(X, CC)), verb(defeat, trans(CC)).
 link(verb(request, ditrans(X, C)), verb(give, ditrans(X, CC))) :- verb(request, ditrans(X, C)), verb(give, ditrans(X, CC)).
-link(verb(help, trans(C)), verb(give, ditrans(X, C))) :- verb(help, trans(C)), verb(give, ditrans(X, C)).
+link(verb(help, trans(C)), verb(request, ditrans(X, C))) :- verb(help, trans(C)), verb(request, ditrans(X, C)), has(C, X).
 link(verb(go, X), verb(search, Y)) :- verb(go, X), verb(search, Y).
-link(verb(understand, none), verb(go, Y)) :- verb(understand, none), verb(go, Y).
-link(verb(study, X), verb(understand, none)) :- verb(study, X), verb(understand, none).
+link(verb(study, trans(object(clues))), verb(understand, none)) :- verb(study, trans(object(clues))), verb(understand, none).
+link(verb(talk, trans(X)), verb(understand, none)) :- verb(talk, trans(X)), verb(understand, none), is(X, adj(smart)).
 
 :- occurs(C, verb(give, ditrans(X, CC)), Q), goal(has(C, X), Q), player(C).
-#program dynamic.
 
 % same state involuntary reaction
 occurs(character(C), verb(find, trans(character(CC))), Q) :- occurs(character(CC), verb(find, trans(character(C))), Q), character(C), character(CC).
@@ -115,5 +120,3 @@ occurs(C, verb(defeat, trans(CC)), Q) :- occurs(C, verb(fight, trans(CC)), Q), '
 :- occurs(C, verb(defeat, trans(CC)), act(Q)), occurs(CC, verb(defeat, trans(C)), act(Q)).
 :- occurs(_, verb(escape, none), act(Q)), not story'(_).
 :- occurs(_, verb(defeat, trans(C)), act(Q)), not not &tel { > >? occurs(C, verb(A, B), act(Q)) }, act(Q), verb(A, B).
-
-% fails conditions

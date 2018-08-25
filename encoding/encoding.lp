@@ -22,7 +22,7 @@ occurs(X, Y, act(Z)) :- player(X), decision(Y), act(Z), not fails(X, Y, act(Z)).
 
 % occurs limitations - not same thing more than twice in a row
 :- occurs(X, Y, Z), 'occurs(X, Y, Z), ''occurs(X, Y, Z).
-%:- fails(X, Y, Z), 'fails(X, Y, Z).
+:- fails(X, Y, Z), 'fails(X, Y, Z).
 :- decision(Y), 'fails(X, Y, Z), player(X).
 
 % at change of act, import goals
