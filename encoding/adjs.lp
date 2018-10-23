@@ -60,6 +60,8 @@ link(is(character(C), place(X)), verb(find, trans(A))) :- character(C), verb(fin
 % PLACES
 is(character(C), place(X)) :- not occurs(character(C), verb(go, _), _), 'is(character(C), place(X)).
 is(character(C), place(X)) :- occurs(character(C), verb(go, trans(place(X))), act(Q)).
+is(object(O), place(X)) :- not occurs(_, verb(take, trans(object(O))), _), 'is(object(O), place(X)).
+is(object(O), place(X)) :- occurs(character(C), verb(put, trans(object(O))), act(Q)), is(character(C), place(X)).
 setting(X) :- is(C, place(X)), player(C).
 :- occurs(C, verb(go, trans(P)), Q), is(P, adj(restricted(Q))).
 

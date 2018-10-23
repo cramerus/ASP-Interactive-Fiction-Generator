@@ -48,6 +48,7 @@ occurs(CC, verb(give, ditrans(X, C)), Q) :- 'has(CC, X), occurs(C, verb(request,
 occurs(C, verb(understand, none), Q) :- occurs(C, verb(study, trans(object(clues))), Q).
 :- occurs(C, verb(request, ditrans(X, CC)), Q), not is(CC, adj(happy)).
 :- occurs(C, verb(take, trans(X)), _), 'has(C, X).
+:- occurs(C, verb(put, trans(X)), _), not 'has(C, X).
 :- occurs(C, verb(use, trans(X), _), Q), not 'has(C, X).
 :- occurs(C, verb(give, ditrans(X, _)), Q), not 'has(C, X).
 :- occurs(C, verb(give, ditrans(X, CC)), Q), 'has(CC, X).
@@ -67,3 +68,4 @@ occurs(C, verb(understand, none), Q) :- occurs(C, verb(study, trans(object(clues
 % FAIL conditions due to effects
 fails(C, verb(find, trans(X)), Q) :- occurs(C, verb(search, trans(X)), Q), has(_, X).
 fails(C, verb(find, trans(X)), Q) :- occurs(C, verb(search, trans(X)), Q), is(C, place(Y)), is(X, place(Z)), Y != Z.
+fails(CC, verb(give, ditrans(X, C)), Q) :- not occurs(CC, verb(give, ditrans(X, C)), Q), occurs(C, verb(request, ditrans(X, CC)), Q).
