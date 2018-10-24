@@ -4,16 +4,13 @@ init(character(tenant)).
 init(character(ghost)).
 
 init(player(character(tenant))).
-init(role(protagonist, tenant)).
+init(role(protagonist, character(tenant))).
 
 init(setting(parlor)).
 init(place(shrine)).
 
 init(is(object(painting), place(shrine))).
 init(is(object(regret), place(parlor))).
-
-% unassigned chars -> place is at setting
-
 
 init(goal(verb(find, trans(character(ghost))), act(rising))).
 init(goal(verb(find, trans(object(regret))), act(rising))).
