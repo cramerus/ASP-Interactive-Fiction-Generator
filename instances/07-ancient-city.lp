@@ -3,6 +3,8 @@
 init(character(explorer)).
 init(player(character(explorer))).
 
+init(role(protagonist, character(explorer))).
+
 init(character(deity)).
 init(is(character(deity), place(temple))).
 %init(is(character(deity), adj(trapped))).
@@ -13,7 +15,6 @@ init(place(city)).
 
 init(is(object(artifact), place(city))).
 
-%%GOALS
 init(goal(verb(find, trans(character(deity))), act(rising))).
 init(goal(verb(take, trans(object(artifact))), act(climax))).
 init(goal(verb(give, ditrans(object(artifact),character(deity))), act(climax))).
