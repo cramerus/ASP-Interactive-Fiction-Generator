@@ -16,8 +16,6 @@ verb(fight, trans(character(X))) :- character(X).
     choice(verb(fight, X)) :- verb(fight, X).
 verb(take, trans(object(X))) :- object(X).
     choice(verb(take, X)) :- verb(take, X).
-verb(put, trans(object(X))) :- object(X). 
-    choice(verb(put, X)) :- verb(put, X).
 verb(run, none).
     choice(verb(run, none)).
 verb(escape, none).
@@ -73,7 +71,6 @@ link(A, C) :- link(A, B), link(B, C).
 link(verb(search, X), verb(find, X)) :- verb(search, X), verb(find, X).
 link(verb(find, X), verb(fight, X)) :- verb(find, X), verb(fight, X).
 link(verb(find, X), verb(take, X)) :- verb(find, X), verb(take, X).
-link(verb(find, X), verb(put, X)) :- verb(find, X), verb(put, X). 
 link(verb(find, X), verb(talk, X)) :- verb(find, X), verb(talk, X).
 link(verb(find, X), verb(lie, X)) :- verb(find, X), verb(lie, X).
 link(verb(find, X), verb(help, X)) :- verb(find, X), verb(help, X).
@@ -83,8 +80,6 @@ link(verb(find, C), verb(request, ditrans(X, C))) :- verb(find, C), verb(request
 link(verb(find, C), verb(steal, ditrans(X, C))) :- verb(find, C), verb(steal, ditrans(X, C)).
 
 link(verb(take, X), verb(use, X)) :- verb(take, X), verb(use, X).
-link(verb(take, X), verb(put, X)) :- verb(take, X), verb(put, X). 
-link(verb(put, X), verb(take, X)) :- verb(put, X), verb(take, X). 
 link(verb(run, none), verb(escape, none)).
 link(verb(defeat, trans(X)), verb(escape, none)) :- verb(defeat, trans(X)), role(antagonist, X).
 link(verb(trick, trans(X)), verb(escape, none)) :- verb(trick, trans(X)), role(antagonist, X).
