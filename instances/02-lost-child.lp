@@ -6,7 +6,7 @@ init(character(stepmother)).
 
 init(player(character(child))).
 
-init(role(protagonist, character(thief))).
+init(role(protagonist, character(child))).
 
 init(setting(home)).
 % unassigned chars -> place is at setting
